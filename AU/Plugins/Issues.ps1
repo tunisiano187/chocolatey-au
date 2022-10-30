@@ -8,7 +8,7 @@
 param(
     $Info,
 
-    # Target Git branch for the GitHub pull request
+    # Target Git branch for the GitHub issue
     [string]$BaseBranch = "master",
 
     # GitHub usernames to be added to the list of assignees
@@ -27,7 +27,7 @@ param(
     [string]$ApiKey
 )
 
-#$Info.result | fl
+write-host $Info.result | Format-List
 #if ($Info.result.updated.Length -eq 0) { Write-Host "No package updated, skipping"; return }
 
 $ErrorActionPreference = "Stop"
