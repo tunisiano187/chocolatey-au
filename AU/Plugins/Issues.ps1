@@ -27,7 +27,7 @@ param(
     [string]$ApiKey
 )
 
-write-host $Info.result.errors[0] | Format-Table
+write-host $Info.result.errors[0].AUPackage | Format-Table
 #if ($Info.result.updated.Length -eq 0) { Write-Host "No package updated, skipping"; return }
 
 $ErrorActionPreference = "Stop"
