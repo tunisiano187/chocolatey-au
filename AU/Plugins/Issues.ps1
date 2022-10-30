@@ -27,7 +27,7 @@ param(
     [string]$ApiKey
 )
 
-write-host $Info.result | Format-List
+write-host $Info.result.errors | Format-List
 #if ($Info.result.updated.Length -eq 0) { Write-Host "No package updated, skipping"; return }
 
 $ErrorActionPreference = "Stop"
