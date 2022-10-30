@@ -27,7 +27,7 @@ param(
     [string]$ApiKey
 )
 
-write-host $Info.result.errors[0].AUPackage | Format-Table
+$Info.result.errors | Select-Object 'Name', 'NuspecVersion', 'Error' | Format-Table | Out-String
 #if ($Info.result.updated.Length -eq 0) { Write-Host "No package updated, skipping"; return }
 
 $ErrorActionPreference = "Stop"
