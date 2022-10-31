@@ -38,7 +38,9 @@ $packages = $Info.result.pushed | Select-Object 'Name', 'NuspecVersion'
 "Pushed packages $packages"
 foreach ($package in $packages) {
     $issue=Get-GitHubIssue -OwnerName $Owner -RepositoryName $Repo | Where-Object {$_.title -match "($($package.Name))"}
-    New-GitHubComment -OwnerName $Owner -RepositoryName $Repo -Issue $issue.IssueNumber -Body "$($package.Name) Updated to $($package.NuspecVersion)"
+    if($issue.count() -gt 0) {
+        New-GitHubComment -OwnerName $Owner -RepositoryName $Repo -Issue $issue.IssueNumber -Body "$($package.Name) Updated to $($package.NuspecVersion)"
+    }
 }
 
 $packages = $Info.result.errors | Select-Object 'Name' | Out-String
