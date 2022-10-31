@@ -27,11 +27,11 @@ param(
     [string]$ApiKey
 )
 
-if ($Info.result.updated.Length -eq 0) { Write-Host "No package updated, skipping"; return }
-$packages = $Info.result.pushed | Select-Object 'Name'
+#if ($Info.result.updated.Length -eq 0) { Write-Host "No package updated, skipping"; return }
+$packages = $Info.result.pushed | Select-Object 'Name' | Out-String
 "Pushed packages $packages"
 
-$packages = $Info.result.errors | Select-Object 'Name'
+$packages = $Info.result.errors | Select-Object 'Name' | Out-String
 "Failed packages $packages"
 $ErrorActionPreference = "Stop"
 
