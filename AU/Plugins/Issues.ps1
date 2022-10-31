@@ -35,13 +35,14 @@ $Owner = $originParts[-2]
 $Repo = $originParts[-1] -replace "\.git$", ""
 
 $packages = $Info.result.pushed | Select-Object 'Name', 'NuspecVersion'
-"Pushed packages $packages"
-foreach ($package in $packages) {
-    $issue=Get-GitHubIssue -OwnerName $Owner -RepositoryName $Repo | Where-Object {$_.title -match "($($package.Name))"}
-    if($issue.count() -gt 0) {
-        New-GitHubComment -OwnerName $Owner -RepositoryName $Repo -Issue $issue.IssueNumber -Body "$($package.Name) Updated to $($package.NuspecVersion)"
-    }
-}
+$Info | ConvertTo-json
+#"Pushed packages $packages"
+#foreach ($package in $packages) {
+#    $issue=Get-GitHubIssue -OwnerName $Owner -RepositoryName $Repo | Where-Object {$_.title -match "($($package.Name))"}
+#    if($issue.count() -gt 0) {
+#        New-GitHubComment -OwnerName $Owner -RepositoryName $Repo -Issue $issue.IssueNumber -Body "$($package.Name) Updated to $($package.NuspecVersion)"
+#    }
+#}
 
 $packages = $Info.result.errors | Select-Object 'Name' | Out-String
 "Failed packages $packages"
