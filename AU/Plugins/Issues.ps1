@@ -29,7 +29,10 @@ param(
 
 if ($Info.result.updated.Length -eq 0) { Write-Host "No package updated, skipping"; return }
 $packages = $Info.result.pushed | Select-Object 'Name'
-$packages
+"Pushed packages $packages"
+
+$packages = $Info.result.errors | Select-Object 'Name'
+"Failed packages $packages"
 $ErrorActionPreference = "Stop"
 
 $origin = git config --get remote.origin.url
