@@ -28,13 +28,14 @@ param(
 )
 
 if ($Info.result.updated.Length -eq 0) { Write-Host "No package updated, skipping"; return }
-$Info.result
+$packages = $Info.result.pushed | Select-Object 'Name'
+$packages
 $ErrorActionPreference = "Stop"
 
-#$origin = git config --get remote.origin.url
-#$originParts = $origin -split {$_ -eq "/" -or $_ -eq ":"}
-#$owner = $originParts[-2]
-#$repo = $originParts[-1] -replace "\.git$", ""
+$origin = git config --get remote.origin.url
+$originParts = $origin -split {$_ -eq "/" -or $_ -eq ":"}
+$owner = $originParts[-2]
+$repo = $originParts[-1] -replace "\.git$", ""
 
 #https://github.com/majkinetor/au/issues/142
 #if ($PSVersionTable.PSVersion.major -ge 6) {
