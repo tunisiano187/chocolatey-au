@@ -28,6 +28,7 @@ param(
 )
 
 $Info.result.errors | Select-Object 'Name', 'NuspecVersion', 'Error' | Format-Table | Out-String
+Get-ChildItem "c:\packages\"
 #if ($Info.result.updated.Length -eq 0) { Write-Host "No package updated, skipping"; return }
 
 $ErrorActionPreference = "Stop"
