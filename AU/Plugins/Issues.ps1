@@ -27,10 +27,8 @@ param(
     [string]$ApiKey
 )
 
-$Info.result.errors | Select-Object 'Name', 'NuspecVersion', 'Error' | Format-Table | Out-String
-Get-ChildItem "c:\packages\"
-#if ($Info.result.updated.Length -eq 0) { Write-Host "No package updated, skipping"; return }
-
+if ($Info.result.updated.Length -eq 0) { Write-Host "No package updated, skipping"; return }
+$Info.result
 $ErrorActionPreference = "Stop"
 
 #$origin = git config --get remote.origin.url
@@ -52,7 +50,7 @@ $ErrorActionPreference = "Stop"
 #    base = $BaseBranch
 #}
 #$params = @{
-#    ContentType = 'application/json'
+#    ContentType = 'application/json'   
 #    Method = "POST"
 #    Uri = "$GitHubAPI/repos/$owner/$repo/pulls"
 #    Body = $data | ConvertTo-Json
