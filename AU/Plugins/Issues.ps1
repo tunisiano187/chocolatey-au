@@ -28,17 +28,22 @@ param(
 )
 
 #if ($Info.result.updated.Length -eq 0) { Write-Host "No package updated, skipping"; return }
-$packages = $Info.result.pushed | Select-Object 'Name' | Out-String
+
+$origin = git config --get remote.origin.url
+$originParts = $origin -split {$_ -eq "/" -or $_ -eq ":"}
+$Owner = $originParts[-2]
+$Repo = $originParts[-1] -replace "\.git$", ""
+
+$packages = $Info.result.pushed | Select-Object 'Name', 'NuspecVersion'
 "Pushed packages $packages"
+foreach ($package in $packages) {
+    $issue=Get-GitHubIssue -OwnerName $Owner -RepositoryName $Repo | Where-Object {$_.title -match "($($package.Name))"}
+    New-GitHubComment -OwnerName $Owner -RepositoryName $Repo -Issue $issue.IssueNumber -Body "$($package.Name) Updated to $($package.NuspecVersion)"
+}
 
 $packages = $Info.result.errors | Select-Object 'Name' | Out-String
 "Failed packages $packages"
 $ErrorActionPreference = "Stop"
-
-$origin = git config --get remote.origin.url
-$originParts = $origin -split {$_ -eq "/" -or $_ -eq ":"}
-$owner = $originParts[-2]
-$repo = $originParts[-1] -replace "\.git$", ""
 
 #https://github.com/majkinetor/au/issues/142
 #if ($PSVersionTable.PSVersion.major -ge 6) {
