@@ -19,7 +19,14 @@ function Invoke-VirusTotalScan ($Package) {
 
     if ($Package.RemoteVersion -ne $Package.NuspecVersion) {
         if (!$existingFileName32 -and !$existingFileName64) {
-            Get-RemoteFiles -NoSuffix -FileNameBase $Latest.Name
+            if ($Latest.Url32) {
+                $Latest.FileName32 = [System.IO.Path]::GetTempFileName()
+                Invoke-WebRequest $Url -OutFile $Latest.FileName32 -UseBasicParsing
+            }
+            if ($Latest.Url64) {
+                $Latest.FileName64 = [System.IO.Path]::GetTempFileName()
+                Invoke-WebRequest $Url -OutFile $Latest.FileName32 -UseBasicParsing
+            }
         }
 
         if ($Latest.FileName32) {
