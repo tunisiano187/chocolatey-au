@@ -21,11 +21,11 @@ function Invoke-VirusTotalScan ($Package) {
         if (!$existingFileName32 -and !$existingFileName64) {
             if ($Latest.Url32) {
                 $Latest.FileName32 = [System.IO.Path]::GetTempFileName()
-                Invoke-WebRequest $Url -OutFile $Latest.FileName32 -UseBasicParsing
+                Invoke-WebRequest $Latest.Url32 -OutFile $Latest.FileName32 -UseBasicParsing
             }
             if ($Latest.Url64) {
                 $Latest.FileName64 = [System.IO.Path]::GetTempFileName()
-                Invoke-WebRequest $Url -OutFile $Latest.FileName32 -UseBasicParsing
+                Invoke-WebRequest $Latest.Url64 -OutFile $Latest.FileName64 -UseBasicParsing
             }
         }
 
